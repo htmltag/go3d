@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Go3D Example</title>
+    </head>
+    <body>
+        <canvas id="renderCanvas" width="800" height="600"></canvas>
+        <script src="wasm_exec.js"></script>
+        <script src="go3d.js"></script>
+        <script>
+            // Wait for Go3D to be initialized
+            function waitForGo3D(callback) {
+                if (typeof Go3D !== "undefined") {
+                    callback();
+                } else {
+                    setTimeout(() => waitForGo3D(callback), 50);
+                }
+            }
+
+            waitForGo3D(() => {
+                const scene = Go3D.NewObject3D();
+                const camera = Go3D.NewObject3D();
+                const renderer = Go3D.NewWebGLRenderer("renderCanvas");
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    renderer.Render(scene, camera);
+                }
+
+                animate();
+            });
+        </script>
+    </body>
+</html>
